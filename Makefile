@@ -1,4 +1,4 @@
-CXX = g++ -g -O3 -Wall -pedantic -std=c++17 -Wno-deprecated-declarations
+CXX = g++ -O3 -Wall -pedantic -std=c++17
 MAIN_BINARY = $(basename $(wildcard *Main.cpp))
 FUZZ_BINARY = $(basename $(wildcard *Fuzz.cpp))
 HEADERS = $(wildcard *.h)
@@ -12,8 +12,8 @@ all: compile fuzz
 
 compile: $(MAIN_BINARY) $(FUZZ_BINARY)
 
-fuzz: $(FUZZ_BINARY)
-	./$(FUZZ_BINARY)
+fuzz: $(FUZZ_BINARY) $(MAIN_BINARY)
+	./$(FUZZ_BINARY) 1000
 	z3 fuzzingTests.smt > res1 && ./smtMain fuzzingTests.smt > res2 && cmp res1 res2; echo $$?
 
 clean:
