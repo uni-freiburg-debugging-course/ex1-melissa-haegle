@@ -8,13 +8,13 @@ Detailed instructions are in the exercise sheet. Following are your checkpoints:
 - [x] Generate *lots* of random instances with your fuzzer. Your evaluator and z3 must return the same result on generated instances
 - [x] Provide detailed build instructions for your code so that we can evaluate it
 
-**Build instructions**
-I included a makefile, so you should be able to compile, generate tests and run the tests using "**make**".
+## Build instructions
+I included a **makefile**, so you should be able to compile, generate tests and run the tests using "make".
 There are several targets, which you can use:
-    - "make all": compiles everything and runs the fuzzer
-    - "make compile": compiles both the smt parser and the fuzzer
-    - "make fuzz": generates 1000 tests in "fuzzingTests.smt" and compares the results to z3
-    - "make clean": removes all temporary files, including binaries and tests (except the pre defined simp.smt2)
+- "make all": compiles everything and runs the fuzzer
+- "make compile": compiles both the smt parser and the fuzzer
+- "make fuzz": generates 1000 tests in "fuzzingTests.smt" and compares the results to z3
+- "make clean": removes all temporary files, including binaries and tests (except the pre defined simp.smt2)
 
 The binary of the smt **solver** is called "smtMain".
 It can be called with: ./smtMain <smtFile>
