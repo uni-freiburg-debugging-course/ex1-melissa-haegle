@@ -9,7 +9,10 @@ Detailed instructions are in the exercise sheet. Following are your checkpoints:
 - [x] Provide detailed build instructions for your code so that we can evaluate it
 
 ## Build instructions
-I included a **makefile**, so you should be able to compile, generate tests and run the tests using "make".
+I included a **makefile**, so you should be able to compile, generate tests and run the tests using
+```
+make
+```
 There are several targets, which you can use:
 - "make all": compiles everything and runs the fuzzer
 - "make compile": compiles both the smt parser and the fuzzer
@@ -17,7 +20,13 @@ There are several targets, which you can use:
 - "make clean": removes all temporary files, including binaries and tests (except the pre defined simp.smt2)
 
 The binary of the smt **solver** is called "smtMain".
-It can be called with: ./smtMain <smtFile>
+It can be called with:
+```
+./smtMain <smtFile>
+```
 
 The binary of the **fuzzer** is called "smtFuzz".
-It can be called with: ./smtFuzz <numTests>
+It can be called with:
+```
+./smtFuzz <numTests>
+```
