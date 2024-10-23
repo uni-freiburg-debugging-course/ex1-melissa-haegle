@@ -39,6 +39,11 @@ void generateTests(int numTests) {
 }
 
 int main(int argc, char **argv) {
-  generateTests(100000);
+  // check for the correct number of command line arguments
+  if (argc != 2) {
+    std::cerr << "Usage: " << argv[0] << " <numTests>" << std::endl;
+    exit(1);
+  }
+  generateTests(atoi(argv[1]));
   return 0;
 }
