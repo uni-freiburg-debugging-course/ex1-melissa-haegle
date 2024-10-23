@@ -78,22 +78,23 @@ void smtSolver::evaluate(std::vector<std::string> tokens) {
     exit(1);
   }
   std::string op = tokens[3];
-  int num1 = atoi(tokens[4].c_str());
-  int num2 = atoi(tokens[5].c_str());
+  int64_t num1 = atoi(tokens[4].c_str());
+  int64_t num2 = atoi(tokens[5].c_str());
+  int64_t res;
   if (op == "+") {
-    std::cout << num1 + num2 << std::endl;
+    res = num1 + num2;
   } else if (op == "-") {
-    int res = num1 - num2;
-    if (res < 0) {
-      std::cout << "(- " << abs(res) << ")" << std::endl;
-    } else {
-      std::cout << res << std::endl;
-    }
+    res = num1 - num2;
   } else if (op == "*") {
-    std::cout << num1 * num2 << std::endl;
+    res = num1 * num2;
   } else {
     std::cerr << "Error: unknown operator" << op << std::endl;
     exit(1);
+  }
+  if (res < 0) {
+    std::cout << "(- " << abs(res) << ")" << std::endl;
+  } else {
+    std::cout << res << std::endl;
   }
 }
 

@@ -1,31 +1,34 @@
 CXX = g++ -g -O3 -Wall -pedantic -std=c++17 -Wno-deprecated-declarations
-MAIN_BINARIES = $(basename $(wildcard *Main.cpp))
-TEST_BINARIES = $(basename $(wildcard *Test.cpp))
+MAIN_BINARY = $(basename $(wildcard *Main.cpp))
+FUZZ_BINARY = $(basename $(wildcard *Fuzz.cpp))
 HEADERS = $(wildcard *.h)
-OBJECTS = $(addsuffix .o, $(basename $(filter-out %Main.cpp %Test.cpp, $(wildcard *.cpp))))
+OBJECTS = $(addsuffix .o, $(basename $(filter-out %Main.cpp %Fuzz.cpp, $(wildcard *.cpp))))
 
 .PRECIOUS: %.o
 .SUFFIXES:
-.PHONY: all compile test
+.PHONY: all compile fuzz clean
 
-all: compile test
+all: compile fuzz
 
-compile: $(MAIN_BINARIES) $(TEST_BINARIES)
+compile: $(MAIN_BINARY) $(FUZZ_BINARY)
 
-test: $(TEST_BINARIES)
-	for T in $(TEST_BINARIES); do ./$$T; done
+fuzz: $(FUZZ_BINARY)
+	./$(FUZZ_BINARY)
+	z3 fuzzingTests.smt > res1 && ./smtMain fuzzingTests.smt > res2 && cmp res1 res2; echo $$?
 
 clean:
-	rm -f *.ppm
 	rm -f *.o
-	rm -f $(MAIN_BINARIES)
-	rm -f $(TEST_BINARIES)
+	rm -f *.smt
+	rm -f res1
+	rm -f res2
+	rm -f $(MAIN_BINARY)
+	rm -f $(FUZZ_BINARY)
 
 %Main: %Main.o $(OBJECTS)
 	$(CXX) -o $@ $^
 
-%Test: %Test.o $(OBJECTS)
-	$(CXX) -o $@ $^ -lgtest -lgtest_main -lpthread
+%Fuzz: %Fuzz.o $(OBJECTS)
+	$(CXX) -o $@ $^
 
 %.o: %.cpp $(HEADERS)
 	$(CXX) -c $<
