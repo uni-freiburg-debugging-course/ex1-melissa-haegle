@@ -8,12 +8,12 @@ class smtSolver {
  private:
   // todo: add ast tree member
   std::vector<std::string> lex(std::string line);
-  // todo: add parse function
+  // evaluate one line
+  void evaluate(std::vector<std::string> tokens);
+
  public:
   // destructor
   ~smtSolver();
   // parse a file and build the ast tree
   void readFile(std::string filename);
-  // evaluate the given input
-  void evaluate();
 };

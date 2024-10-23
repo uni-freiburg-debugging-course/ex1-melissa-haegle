@@ -27,6 +27,11 @@ void smtSolver::readFile(std::string filename) {
 
     // seperate line at whitespaces and brackets
     std::vector<std::string> tokens = lex(line);
+    if (tokens.size() == 0) {  // skip empty lines
+      continue;
+    }
+    // evaluate the line
+    evaluate(tokens);
   }
 }
 
@@ -65,7 +70,32 @@ std::vector<std::string> smtSolver::lex(std::string line) {
 }
 
 // ____________________________________________________________________________
-void smtSolver::evaluate() { std::cout << "evaluating..." << std::endl; }
+void smtSolver::evaluate(std::vector<std::string> tokens) {
+  // if the form is not as described in the exercise, we throw an error
+  if (tokens.size() != 8 || tokens[0] != "(" || tokens[1] != "simplify" ||
+      tokens[2] != "(" || tokens[6] != ")" || tokens[7] != ")") {
+    std::cerr << "Error: Invalid syntax" << std::endl;
+    exit(1);
+  }
+  std::string op = tokens[3];
+  int num1 = atoi(tokens[4].c_str());
+  int num2 = atoi(tokens[5].c_str());
+  if (op == "+") {
+    std::cout << num1 + num2 << std::endl;
+  } else if (op == "-") {
+    int res = num1 - num2;
+    if (res < 0) {
+      std::cout << "(- " << abs(res) << ")" << std::endl;
+    } else {
+      std::cout << res << std::endl;
+    }
+  } else if (op == "*") {
+    std::cout << num1 * num2 << std::endl;
+  } else {
+    std::cerr << "Error: unknown operator" << op << std::endl;
+    exit(1);
+  }
+}
 
 // ____________________________________________________________________________
 smtSolver::~smtSolver() {
